@@ -9,9 +9,23 @@ class SplashPage extends HookWidget {
     return const Scaffold(
       body: Center(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Food'),
-            Text('Love'),
+            Text(
+              'Food',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              'Love',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: Colors.green,
+              ),
+            ),
           ],
         ),
       ),
