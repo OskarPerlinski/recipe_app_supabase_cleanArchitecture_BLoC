@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:recipe_api/commom/widgets/appbar/basic_appbar.dart';
 import 'package:recipe_api/commom/widgets/buttons/basic_button.dart';
 import 'package:recipe_api/presentation/auth/sign_in.dart';
 
@@ -12,10 +13,8 @@ class SignUpPage extends HookWidget {
     final confirmpasswordVisible = useState(true);
 
     return Scaffold(
+      appBar: const BasicAppbar(hideBack: true),
       body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -35,8 +34,7 @@ class SignUpPage extends HookWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget _loginText() {
