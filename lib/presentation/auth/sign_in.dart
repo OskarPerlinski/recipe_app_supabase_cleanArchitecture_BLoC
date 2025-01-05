@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recipe_api/commom/widgets/buttons/basic_button.dart';
+import 'package:recipe_api/presentation/auth/sign_up.dart';
 
 class SignInPage extends HookWidget {
   const SignInPage({super.key});
@@ -27,7 +28,7 @@ class SignInPage extends HookWidget {
               const SizedBox(height: 15),
               _forgotPassword(),
               const SizedBox(height: 100),
-              _createAccount(),
+              _createAccount(context),
             ],
           ),
         ),
@@ -109,22 +110,32 @@ class SignInPage extends HookWidget {
     );
   }
 
-  Widget _createAccount() {
-    return const Row(
+  Widget _createAccount(BuildContext context) {
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'Dont have an account? ',
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.black38,
           ),
         ),
-        Text(
-          'Sign Up',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.green,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SignUpPage(),
+              ),
+            );
+          },
+          child: const Text(
+            'Sign Up',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
           ),
         )
       ],
