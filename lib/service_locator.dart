@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:recipe_api/data/auth/repository/auth.dart';
 import 'package:recipe_api/data/auth/source/auth_supabase_service.dart';
 import 'package:recipe_api/domain/auth/repository/auth.dart';
+import 'package:recipe_api/domain/auth/usecases/get_sign_in.dart';
 import 'package:recipe_api/domain/auth/usecases/get_sign_up.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,4 +15,5 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
   //usecases
   sl.registerSingleton<GetSignUpUseCase>(GetSignUpUseCase());
+  sl.registerSingleton<GetSignInUseCase>(GetSignInUseCase());
 }
