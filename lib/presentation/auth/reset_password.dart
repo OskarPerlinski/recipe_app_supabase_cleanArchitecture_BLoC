@@ -8,10 +8,11 @@ class ResetPasswordPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: const BasicAppbar(),
       body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -25,7 +26,8 @@ class ResetPasswordPage extends HookWidget {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   Widget _resetPasswordText() {
@@ -45,10 +47,7 @@ class ResetPasswordPage extends HookWidget {
     return const Center(
       child: Text(
         'We will send a password reset link to the provider Email',
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500
-        ),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -78,5 +77,4 @@ class ResetPasswordPage extends HookWidget {
       ),
     );
   }
-
 }
