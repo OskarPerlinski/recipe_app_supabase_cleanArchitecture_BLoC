@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:recipe_api/bloc/splash/splash_cubit.dart';
 import 'package:recipe_api/presentation/splash/splash.dart';
+import 'package:recipe_api/service_locator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -16,7 +17,9 @@ void main() async {
     anonKey: dotenv.env['SUPABASE_API_KEY']!,
   );
 
+  await initializeDependencies();
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
