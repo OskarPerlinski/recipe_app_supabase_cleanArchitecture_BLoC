@@ -17,7 +17,7 @@ class SplashPage extends HookWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignInPage(),
+                builder: (context) => SignInPage(),
               ),
             );
           }
