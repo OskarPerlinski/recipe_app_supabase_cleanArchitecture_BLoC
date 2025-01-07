@@ -15,6 +15,8 @@ class SignInPage extends HookWidget {
     return Scaffold(
       appBar: const BasicAppbar(hideBack: true),
       body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -32,7 +34,8 @@ class SignInPage extends HookWidget {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   Widget _loginText() {
@@ -135,7 +138,7 @@ class SignInPage extends HookWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignUpPage(),
+                builder: (context) => SignUpPage(),
               ),
             );
           },
