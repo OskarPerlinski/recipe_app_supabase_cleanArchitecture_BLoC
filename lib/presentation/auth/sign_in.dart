@@ -1,37 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:recipe_api/bloc/button/button_cubit.dart';
+import 'package:recipe_api/bloc/button/button_state.dart';
 import 'package:recipe_api/commom/widgets/appbar/basic_appbar.dart';
-import 'package:recipe_api/commom/widgets/buttons/basic_button.dart';
+import 'package:recipe_api/commom/widgets/buttons/basic_reactive_button.dart';
+import 'package:recipe_api/data/auth/model/user_signin_req.dart';
+import 'package:recipe_api/domain/auth/usecases/get_sign_in.dart';
 import 'package:recipe_api/presentation/auth/reset_password.dart';
 import 'package:recipe_api/presentation/auth/sign_up.dart';
+import 'package:recipe_api/presentation/home/home.dart';
 
 class SignInPage extends HookWidget {
-  const SignInPage({super.key});
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  SignInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final passwordVisible = useState(true);
+    final emailError = useState<String?>(null);
+    final passwordError = useState<String?>(null);
 
     return Scaffold(
       appBar: const BasicAppbar(hideBack: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _loginText(),
-              const SizedBox(height: 50),
-              _emailField(),
-              const SizedBox(height: 20),
-              _passwordField(passwordVisible),
-              const SizedBox(height: 50),
-              _signInButton(),
-              const SizedBox(height: 15),
-              _forgotPassword(context),
-              const SizedBox(height: 100),
-              _createAccount(context),
-            ],
+          child: BlocProvider(
+            create: (context) => ButtonStateCubit(),
+            child: BlocListener<ButtonStateCubit, ButtonState>(
+              listener: (context, state) {
+                if (state is ButtonLoadedState) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ),
+                  );
+                }
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _loginText(),
+                  const SizedBox(height: 50),
+                  _emailField(emailError),
+                  const SizedBox(height: 20),
+                  _passwordField(passwordVisible, passwordError),
+                  const SizedBox(height: 50),
+                  _signInButton(context, emailError, passwordError),
+                  const SizedBox(height: 15),
+                  _forgotPassword(context),
+                  const SizedBox(height: 100),
+                  _createAccount(context),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -51,15 +76,17 @@ class SignInPage extends HookWidget {
     );
   }
 
-  Widget _emailField() {
-    return const Padding(
-      padding: EdgeInsets.only(left: 30, right: 30),
+  Widget _emailField(ValueNotifier<String?> emailError) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30),
       child: TextField(
+        controller: emailController,
         decoration: InputDecoration(
           hintText: 'email',
-          hintStyle: TextStyle(color: Colors.grey),
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
+          errorText: emailError.value,
+          hintStyle: const TextStyle(color: Colors.grey),
+          border: const OutlineInputBorder(),
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.green, width: 2),
           ),
         ),
@@ -67,13 +94,16 @@ class SignInPage extends HookWidget {
     );
   }
 
-  Widget _passwordField(ValueNotifier<bool> passwordVisible) {
+  Widget _passwordField(ValueNotifier<bool> passwordVisible,
+      ValueNotifier<String?> passwordError) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: TextField(
+        controller: passwordController,
         obscureText: passwordVisible.value,
         decoration: InputDecoration(
           hintText: 'password',
+          errorText: passwordError.value,
           hintStyle: const TextStyle(color: Colors.grey),
           suffixIcon: IconButton(
             onPressed: () {
@@ -92,12 +122,31 @@ class SignInPage extends HookWidget {
     );
   }
 
-  Widget _signInButton() {
+  Widget _signInButton(BuildContext context, ValueNotifier<String?> emailError,
+      ValueNotifier<String?> passwordError) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
-      child: BasicButton(
-        onPressed: () {},
-        title: 'Sign In',
+      child: Builder(
+        builder: (context) {
+          return BasicReactiveButton(
+            onPressed: () {
+              bool isEmailValid = _validateEmail(emailController.text, emailError);
+              bool isPasswordValid =
+                  _validatePassword(passwordController.text, passwordError);
+              if (!isEmailValid || !isPasswordValid) {
+                return;
+              }
+              context.read<ButtonStateCubit>().execute(
+                    usecase: GetSignInUseCase(),
+                    params: UserSigninReq(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    ),
+                  );
+            },
+            title: 'Sign In',
+          );
+        }
       ),
     );
   }
@@ -152,5 +201,24 @@ class SignInPage extends HookWidget {
         )
       ],
     );
+  }
+
+  bool _validateEmail(String email, ValueNotifier<String?> emailError) {
+    if (email.isEmpty) {
+      emailError.value = 'Email cannot be empty';
+      return false;
+    }
+    emailError.value = null;
+    return true;
+  }
+
+  bool _validatePassword(
+      String password, ValueNotifier<String?> passwordError) {
+    if (password.isEmpty) {
+      passwordError.value = 'Password cannot be empty';
+      return false;
+    }
+    passwordError.value = null;
+    return true;
   }
 }
