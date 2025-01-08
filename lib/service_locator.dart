@@ -5,6 +5,7 @@ import 'package:recipe_api/domain/auth/repository/auth.dart';
 import 'package:recipe_api/domain/auth/usecases/get_reset_password.dart';
 import 'package:recipe_api/domain/auth/usecases/get_sign_in.dart';
 import 'package:recipe_api/domain/auth/usecases/get_sign_up.dart';
+import 'package:recipe_api/domain/auth/usecases/is_logge_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final sl = GetIt.instance;
@@ -18,4 +19,5 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetSignUpUseCase>(GetSignUpUseCase());
   sl.registerSingleton<GetSignInUseCase>(GetSignInUseCase());
   sl.registerSingleton<GetResetPasswordUseCase>(GetResetPasswordUseCase());
+  sl.registerSingleton<IsLoggeInUseCase>(IsLoggeInUseCase());
 }
