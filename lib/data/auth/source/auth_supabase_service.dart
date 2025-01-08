@@ -8,6 +8,7 @@ abstract class AuthSupabaseService {
   Future<Either> getSignIn(UserSigninReq user);
   Future<Either> getResetPassword(String email);
   Future<bool> isLoggedIn();
+  Future<Either> getLogout();
 }
 
 class AuthSupabaseServiceImpl extends AuthSupabaseService {
@@ -59,6 +60,20 @@ class AuthSupabaseServiceImpl extends AuthSupabaseService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  @override
+  Future<Either> getLogout() async {
+    try {
+      await supabaseClient.auth.signOut();
+      return const Right(
+        'User successfully logout',
+      );
+    } catch (e) {
+      return const Left(
+        'Please try again',
+      );
     }
   }
 }
