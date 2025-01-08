@@ -21,4 +21,9 @@ class AuthRepositoryImpl extends AuthRepository{
     return await sl<AuthSupabaseService>().getResetPassword(email);
   }
   
+  @override
+  Future<bool> isLoggedIn() async {
+    return await sl<AuthSupabaseService>().isLoggedIn();
+  }
+  
 }
