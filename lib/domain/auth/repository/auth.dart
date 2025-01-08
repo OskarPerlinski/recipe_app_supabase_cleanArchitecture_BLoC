@@ -6,4 +6,5 @@ abstract class AuthRepository {
   Future<Either> getSignUp(UserCreationReq user);
   Future<Either> getSignIn(UserSigninReq user);
   Future<Either> getResetPassword(String email);
+  Future<bool> isLoggedIn();
 }
