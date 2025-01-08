@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:recipe_api/bloc/logout/logout_cubit.dart';
+import 'package:recipe_api/bloc/logout/logout_state.dart';
+import 'package:recipe_api/presentation/auth/sign_in.dart';
 
 class Header extends HookWidget {
   const Header({super.key});
@@ -14,7 +18,7 @@ class Header extends HookWidget {
           _logo(),
           Positioned(
             right: 0,
-            child: _logOut(),
+            child: _logOut(context),
           ),
         ],
       ),
@@ -44,13 +48,36 @@ class Header extends HookWidget {
     );
   }
 
-  Widget _logOut() {
-    return IconButton(
-      onPressed: () {},
+  Widget _logOut(BuildContext context) {
+  return BlocListener<LogoutCubit, LogoutState>(
+    listener: (context, state) {
+      if (state is LogoutLoaded) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('You have logged out successfully')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SignInPage(),
+          ),
+        );
+      }
+
+      if (state is FailureLogoutLoaded) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.errorMessage)),
+        );
+      }
+    },
+    child: IconButton(
+      onPressed: () {
+        context.read<LogoutCubit>().logOut(); 
+      },
       icon: const Icon(
         Icons.logout,
         color: Colors.black,
       ),
-    );
-  }
+    ),
+  );
+}
 }
