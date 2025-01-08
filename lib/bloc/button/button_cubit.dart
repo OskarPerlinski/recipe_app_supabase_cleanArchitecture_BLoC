@@ -14,14 +14,14 @@ class ButtonStateCubit extends Cubit<ButtonState> {
 
       returnedData.fold(
         (error) {
-          emit(ButtonFailureState());
+          emit(ButtonFailureState(error));
         },
         (data) {
           emit(ButtonLoadedState());
         },
       );
     } catch (e) {
-      emit(ButtonFailureState());
+      emit(ButtonFailureState('An unexpected error occurred'));
     }
   }
 }
