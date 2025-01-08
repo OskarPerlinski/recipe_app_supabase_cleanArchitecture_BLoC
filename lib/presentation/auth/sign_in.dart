@@ -38,6 +38,10 @@ class SignInPage extends HookWidget {
                       builder: (context) => const HomePage(),
                     ),
                   );
+                } else if (state is ButtonFailureState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(state.message)),
+                  );
                 }
               },
               child: Column(
@@ -126,28 +130,27 @@ class SignInPage extends HookWidget {
       ValueNotifier<String?> passwordError) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
-      child: Builder(
-        builder: (context) {
-          return BasicReactiveButton(
-            onPressed: () {
-              bool isEmailValid = _validateEmail(emailController.text, emailError);
-              bool isPasswordValid =
-                  _validatePassword(passwordController.text, passwordError);
-              if (!isEmailValid || !isPasswordValid) {
-                return;
-              }
-              context.read<ButtonStateCubit>().execute(
-                    usecase: GetSignInUseCase(),
-                    params: UserSigninReq(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    ),
-                  );
-            },
-            title: 'Sign In',
-          );
-        }
-      ),
+      child: Builder(builder: (context) {
+        return BasicReactiveButton(
+          onPressed: () {
+            bool isEmailValid =
+                _validateEmail(emailController.text, emailError);
+            bool isPasswordValid =
+                _validatePassword(passwordController.text, passwordError);
+            if (!isEmailValid || !isPasswordValid) {
+              return;
+            }
+            context.read<ButtonStateCubit>().execute(
+                  usecase: GetSignInUseCase(),
+                  params: UserSigninReq(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  ),
+                );
+          },
+          title: 'Sign In',
+        );
+      }),
     );
   }
 
@@ -206,6 +209,10 @@ class SignInPage extends HookWidget {
   bool _validateEmail(String email, ValueNotifier<String?> emailError) {
     if (email.isEmpty) {
       emailError.value = 'Email cannot be empty';
+      return false;
+    }
+    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
+      emailError.value = 'Invalid email format';
       return false;
     }
     emailError.value = null;
