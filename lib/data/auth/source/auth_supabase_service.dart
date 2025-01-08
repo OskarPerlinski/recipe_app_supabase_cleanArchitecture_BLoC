@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 abstract class AuthSupabaseService {
   Future<Either> getSignUp(UserCreationReq user);
   Future<Either> getSignIn(UserSigninReq user);
+  Future<Either> getResetPassword(String email);
 }
 
 class AuthSupabaseServiceImpl extends AuthSupabaseService {
@@ -35,9 +36,19 @@ class AuthSupabaseServiceImpl extends AuthSupabaseService {
       return Right(response.user!.id);
     } catch (e) {
       if (e is AuthException) {
-      return Left(e.message);
+        return Left(e.message);
+      }
+      return const Left('An unexpected error occurred');
     }
-    return const Left('An unexpected error occurred');
+  }
+
+  @override
+  Future<Either> getResetPassword(String email) async {
+    try {
+      await supabaseClient.auth.resetPasswordForEmail(email);
+      return const Right('We send You Email');
+    } catch (e) {
+      return const Left('Please try again');
     }
   }
 }
