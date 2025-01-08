@@ -6,4 +6,7 @@ class ButtonLoadingState extends ButtonState {}
 
 class ButtonLoadedState extends ButtonState {}
 
-class ButtonFailureState extends ButtonState {}
+class ButtonFailureState extends ButtonState {
+  final String message;
+  ButtonFailureState(this.message);
+}
