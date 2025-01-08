@@ -34,7 +34,10 @@ class AuthSupabaseServiceImpl extends AuthSupabaseService {
       );
       return Right(response.user!.id);
     } catch (e) {
-      return const Left('Please try again');
+      if (e is AuthException) {
+      return Left(e.message);
+    }
+    return const Left('An unexpected error occurred');
     }
   }
 }
