@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:recipe_api/data/auth/repository/auth.dart';
 import 'package:recipe_api/data/auth/source/auth_supabase_service.dart';
 import 'package:recipe_api/domain/auth/repository/auth.dart';
+import 'package:recipe_api/domain/auth/usecases/get_logout.dart';
 import 'package:recipe_api/domain/auth/usecases/get_reset_password.dart';
 import 'package:recipe_api/domain/auth/usecases/get_sign_in.dart';
 import 'package:recipe_api/domain/auth/usecases/get_sign_up.dart';
@@ -20,4 +21,5 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetSignInUseCase>(GetSignInUseCase());
   sl.registerSingleton<GetResetPasswordUseCase>(GetResetPasswordUseCase());
   sl.registerSingleton<IsLoggeInUseCase>(IsLoggeInUseCase());
+  sl.registerSingleton<GetLogoutUseCase>(GetLogoutUseCase());
 }
