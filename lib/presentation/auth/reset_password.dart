@@ -1,29 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:recipe_api/bloc/button/button_cubit.dart';
+import 'package:recipe_api/bloc/button/button_state.dart';
 import 'package:recipe_api/commom/widgets/appbar/basic_appbar.dart';
-import 'package:recipe_api/commom/widgets/buttons/basic_button.dart';
+import 'package:recipe_api/commom/widgets/buttons/basic_reactive_button.dart';
+import 'package:recipe_api/domain/auth/usecases/get_reset_password.dart';
+import 'package:recipe_api/presentation/auth/we_send_email.dart';
 
 class ResetPasswordPage extends HookWidget {
-  const ResetPasswordPage({super.key});
+  final emailController = TextEditingController();
+  ResetPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final emailError = useState<String?>(null);
+
     return Scaffold(
       appBar: const BasicAppbar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _resetPasswordText(),
-              const SizedBox(height: 10),
-              _informationText(),
-              const SizedBox(height: 50),
-              _emailField(),
-              const SizedBox(height: 50),
-              _sendEmailButton(),
-            ],
+          child: BlocProvider(
+            create: (context) => ButtonStateCubit(),
+            child: BlocListener<ButtonStateCubit, ButtonState>(
+              listener: (context, state) {
+                if (state is ButtonLoadedState) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WeSendEmailPage(),
+                    ),
+                  );
+                }
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _resetPasswordText(),
+                  const SizedBox(height: 10),
+                  _informationText(),
+                  const SizedBox(height: 50),
+                  _emailField(emailError),
+                  const SizedBox(height: 50),
+                  _sendEmailButton(context, emailError),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -52,15 +75,17 @@ class ResetPasswordPage extends HookWidget {
     );
   }
 
-  Widget _emailField() {
-    return const Padding(
-      padding: EdgeInsets.only(left: 30, right: 30),
+  Widget _emailField(ValueNotifier<String?> emailError) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30),
       child: TextField(
+        controller: emailController,
         decoration: InputDecoration(
           hintText: 'email',
-          hintStyle: TextStyle(color: Colors.grey),
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
+          errorText: emailError.value,
+          hintStyle: const TextStyle(color: Colors.grey),
+          border: const OutlineInputBorder(),
+          focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.green, width: 2),
           ),
         ),
@@ -68,13 +93,37 @@ class ResetPasswordPage extends HookWidget {
     );
   }
 
-  Widget _sendEmailButton() {
+  Widget _sendEmailButton(
+      BuildContext context, ValueNotifier<String?> emailError) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
-      child: BasicButton(
-        onPressed: () {},
-        title: 'Send Email',
-      ),
+      child: Builder(builder: (context) {
+        return BasicReactiveButton(
+          onPressed: () {
+            if (!_validateEmail(emailError)) {
+              return;
+            }
+            context.read<ButtonStateCubit>().execute(
+                  usecase: GetResetPasswordUseCase(),
+                  params: emailController.text,
+                );
+          },
+          title: 'Send Email',
+        );
+      }),
     );
+  }
+
+  bool _validateEmail(ValueNotifier<String?> emailError) {
+    bool isValid = true;
+
+    final email = emailController.text.trim();
+    if (email.isEmpty) {
+      emailError.value = 'Email cannot be empty';
+      isValid = false;
+    } else {
+      emailError.value = null;
+    }
+    return isValid;
   }
 }
