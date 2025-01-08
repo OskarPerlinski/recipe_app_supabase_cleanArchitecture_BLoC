@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recipe_api/bloc/splash/splash_cubit.dart';
 import 'package:recipe_api/bloc/splash/splash_state.dart';
 import 'package:recipe_api/presentation/auth/sign_in.dart';
+import 'package:recipe_api/presentation/home/home.dart';
 
 class SplashPage extends HookWidget {
   const SplashPage({super.key});
@@ -18,6 +19,14 @@ class SplashPage extends HookWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => SignInPage(),
+              ),
+            );
+          }
+          if (state is SplashAuthenticated) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomePage(),
               ),
             );
           }
