@@ -26,4 +26,9 @@ class AuthRepositoryImpl extends AuthRepository{
     return await sl<AuthSupabaseService>().isLoggedIn();
   }
   
+  @override
+  Future<Either> getLogout() async {
+    return await sl<AuthSupabaseService>().getLogout();
+  }
+  
 }
