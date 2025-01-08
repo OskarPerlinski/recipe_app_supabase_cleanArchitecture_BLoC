@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:recipe_api/bloc/button/button_cubit.dart';
+import 'package:recipe_api/bloc/logout/logout_cubit.dart';
 import 'package:recipe_api/bloc/splash/splash_cubit.dart';
 import 'package:recipe_api/presentation/splash/splash.dart';
 import 'package:recipe_api/service_locator.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => SplashCubit()..appStarted()),
         BlocProvider(create: (context) => ButtonStateCubit()),
+        BlocProvider(create: (context) => LogoutCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
