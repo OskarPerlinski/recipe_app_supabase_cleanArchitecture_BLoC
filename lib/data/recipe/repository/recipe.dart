@@ -9,12 +9,31 @@ class RecipeRepositoryImpl extends RecipeRepository {
   Future<Either> getBreakfast() async {
     var retunredData = await sl<RecipeSupabaseService>().getBreakfast();
     return retunredData.fold(
-     (error){
+      (error) {
         return Left(error);
       },
-      (data){
+      (data) {
         return Right(
-          List.from(data).map((e) => RecipeModels.fromMap(e).toEntity()).toList()
+          List.from(data)
+              .map((e) => RecipeModels.fromMap(e).toEntity())
+              .toList(),
+        );
+      },
+    );
+  }
+
+  @override
+  Future<Either> getHighProtein() async {
+    var returnedData = await sl<RecipeSupabaseService>().getHighProtein();
+    return returnedData.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(
+          List.from(data)
+              .map((e) => RecipeModels.fromMap(e).toEntity())
+              .toList(),
         );
       },
     );
