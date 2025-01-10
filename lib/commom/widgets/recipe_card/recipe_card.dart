@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:recipe_api/domain/recipe/entity/recipe.dart';
 
 class RecipeCard extends HookWidget {
-  const RecipeCard({super.key});
+  final RecipeEntity recipeEntity;
+  const RecipeCard({super.key, required this.recipeEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -30,60 +32,86 @@ class RecipeCard extends HookWidget {
               Expanded(
                 flex: 5,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.only(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(recipeEntity.image),
+                    ),
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8),
                       topRight: Radius.circular(8),
                     ),
                   ),
                 ),
               ),
-              const Expanded(
+              Expanded(
                 flex: 3,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'dsdsdsdsd',
-                        style: TextStyle(
-                          fontSize: 14,
+                        recipeEntity.name,
+                        style: const TextStyle(
+                          fontSize: 16,
                           overflow: TextOverflow.ellipsis,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "Ready in",
                             style: TextStyle(
                               color: Colors.black,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
-                            '45',
-                            style: TextStyle(
+                            recipeEntity.prepTime,
+                            style: const TextStyle(
                               fontSize: 14,
-                              color: Colors.grey,
+                              color: Colors.green,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            "Minutes",
+                          const Text(
+                            "minutes",
                             style: TextStyle(
                               color: Colors.black,
                             ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.orange,
+                          ),
+                          Text(
+                            recipeEntity.raiting,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Text(
+                            ' (100+)',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          )
                         ],
                       )
                     ],
