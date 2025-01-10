@@ -4,6 +4,7 @@ import 'package:recipe_api/presentation/home/widgtes/breakfast.dart';
 import 'package:recipe_api/presentation/home/widgtes/categories.dart';
 import 'package:recipe_api/presentation/home/widgtes/description.dart';
 import 'package:recipe_api/presentation/home/widgtes/header.dart';
+import 'package:recipe_api/presentation/home/widgtes/high_proteins.dart';
 import 'package:recipe_api/presentation/home/widgtes/lunch.dart';
 
 class HomePage extends HookWidget {
@@ -24,6 +25,8 @@ class HomePage extends HookWidget {
             Breakfast(),
             SizedBox(height: 30),
             Lunch(),
+            SizedBox(height: 30),
+            HighProteins(),
             SizedBox(height: 30),
           ],
         ),
