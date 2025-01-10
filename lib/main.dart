@@ -7,6 +7,7 @@ import 'package:recipe_api/bloc/logout/logout_cubit.dart';
 import 'package:recipe_api/bloc/recipe/recipe_cubit.dart';
 import 'package:recipe_api/bloc/splash/splash_cubit.dart';
 import 'package:recipe_api/domain/recipe/usecases/get_breakfast.dart';
+import 'package:recipe_api/domain/recipe/usecases/get_high_protein.dart';
 import 'package:recipe_api/presentation/splash/splash.dart';
 import 'package:recipe_api/service_locator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LogoutCubit()),
         BlocProvider(create: (context) => CategoryCubit()..displayCategory()),
         BlocProvider(create: (context) => RecipeCubit(useCase: sl<GetBreakfastUseCase>())),
+        BlocProvider(create: (context) => RecipeCubit(useCase: sl<GetHighProteinUseCase>())),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
