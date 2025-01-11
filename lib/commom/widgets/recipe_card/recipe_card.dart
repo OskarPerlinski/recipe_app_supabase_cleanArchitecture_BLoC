@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:recipe_api/domain/recipe/entity/recipe.dart';
+import 'package:recipe_api/presentation/detail_page/detail.dart';
 
 class RecipeCard extends HookWidget {
   final RecipeEntity recipeEntity;
@@ -9,7 +10,14 @@ class RecipeCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailPage(recipeEntity: recipeEntity),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, left: 10),
         child: Container(
