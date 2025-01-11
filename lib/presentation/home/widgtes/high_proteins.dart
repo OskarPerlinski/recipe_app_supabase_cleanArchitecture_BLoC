@@ -32,7 +32,7 @@ class HighProteins extends HookWidget {
             );
           }
           if (state is FailureLoadedRecipe) {
-            const Center(
+            return const Center(
               child: Text(
                 'Failed to load recipes.',
                 style: TextStyle(color: Colors.red),
