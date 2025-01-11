@@ -1,80 +1,112 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:recipe_api/domain/recipe/entity/recipe.dart';
 
 class RecipeCard2 extends HookWidget {
-  const RecipeCard2({super.key});
+  final RecipeEntity recipeEntity;
+  const RecipeCard2({super.key, required this.recipeEntity});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {},
-      child:  Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(12),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    height: 100,
-                    width: 110,
-                    color: Colors.black,
-                  ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  recipeEntity.image,
+                  height: 100,
+                  width: 110,
+                  fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(width: 10),
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'title', 
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    recipeEntity.name,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                    SizedBox(height: 50),
-                    Row(
-                      children: [
-                        Text(
-                          "Ready in",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Text(
+                        "Ready in",
+                        style: TextStyle(
+                          fontSize: 14,
                         ),
-                        SizedBox(width: 5),
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        recipeEntity.prepTime,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text(
+                        " minutes",
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                        ),
                         Text(
-                          "45 Min", 
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.red,
+                          recipeEntity.raiting,
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        const Text(
+                          ' (100+)',
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        )
                       ],
                     ),
-                  ],
-                ),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 }
