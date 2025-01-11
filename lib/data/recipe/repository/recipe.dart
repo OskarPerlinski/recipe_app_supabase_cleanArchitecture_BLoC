@@ -38,4 +38,19 @@ class RecipeRepositoryImpl extends RecipeRepository {
       },
     );
   }
+
+  @override
+  Future<Either> getMeal() async {
+    var returnedData = await sl<RecipeSupabaseService>().getMeal();
+    return returnedData.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(List.from(data)
+            .map((e) => RecipeModels.fromMap(e).toEntity())
+            .toList());
+      },
+    );
+  }
 }
