@@ -33,6 +33,8 @@ class CategoryPage extends HookWidget {
             if (state is RecipeLoaded) {
               return Column(
                 children: [
+                  _typeRecipe(state.recipe),
+                  const SizedBox(height: 30),
                   _categoryProducts(state.recipe),
                 ],
               );
@@ -52,6 +54,32 @@ class CategoryPage extends HookWidget {
     );
   }
 
+  Widget _typeRecipe(List<RecipeEntity> recipe) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        children: [
+          Text(
+            categoryEntity.categories,
+            style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Text(
+            '(${recipe.length})',
+            style: const TextStyle(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _categoryProducts(List<RecipeEntity> recipe) {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
@@ -66,7 +94,9 @@ class CategoryPage extends HookWidget {
           childAspectRatio: 0.7,
         ),
         itemBuilder: (context, index) {
-          return RecipeCard(recipeEntity: recipe[index],);
+          return RecipeCard(
+            recipeEntity: recipe[index],
+          );
         },
       ),
     );
