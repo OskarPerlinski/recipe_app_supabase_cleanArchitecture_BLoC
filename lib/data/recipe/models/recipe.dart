@@ -13,6 +13,7 @@ class RecipeModels {
   final String description;
   final String ingredients;
   final String directions;
+  final String categoryId;
 
   RecipeModels({
     required this.id,
@@ -24,6 +25,7 @@ class RecipeModels {
     required this.description,
     required this.ingredients,
     required this.directions,
+    required this.categoryId,
   });
 
   Map<String, dynamic> toMap() {
@@ -37,6 +39,7 @@ class RecipeModels {
       'description': description,
       'ingredients': ingredients,
       'directions': directions,
+      'categoryId': categoryId,
     };
   }
 
@@ -51,6 +54,7 @@ class RecipeModels {
       description: map['description'] as String,
       ingredients: map['ingredients'] as String,
       directions: map['directions'] as String,
+      categoryId: map['categoryId'] as String,
     );
   }
 
@@ -72,6 +76,7 @@ extension RecipeXModel on RecipeModels {
       description: description,
       ingredients: ingredients,
       directions: directions,
+      categoryId: categoryId,
     );
   }
 }
