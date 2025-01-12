@@ -25,6 +25,8 @@ class DetailPage extends HookWidget {
               _description(),
               const SizedBox(height: 30),
               _ingredients(),
+              const SizedBox(height: 30),
+              _directions(),
             ],
           ),
         ),
@@ -97,6 +99,7 @@ class DetailPage extends HookWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
+              color: Colors.green,
             ),
           ),
           const SizedBox(height: 20),
@@ -122,6 +125,7 @@ class DetailPage extends HookWidget {
             'Ingredients:',
             style: TextStyle(
               fontWeight: FontWeight.bold,
+              color: Colors.green,
               fontSize: 20,
             ),
           ),
@@ -137,5 +141,33 @@ class DetailPage extends HookWidget {
       ),
     );
   }
+
+   Widget _directions() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Directions:',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.green,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            recipeEntity.directions,
+            textAlign: TextAlign.justify,
+            style: const TextStyle(
+              fontSize: 15,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   
 }
+
