@@ -8,6 +8,7 @@ class RecipeEntity{
   final String description;
   final String ingredients;
   final String directions;
+  final String categoryId;
 
   RecipeEntity({
     required this.id,
@@ -19,5 +20,6 @@ class RecipeEntity{
     required this.description,
     required this.ingredients,
     required this.directions,
+    required this.categoryId,
   });
 }
