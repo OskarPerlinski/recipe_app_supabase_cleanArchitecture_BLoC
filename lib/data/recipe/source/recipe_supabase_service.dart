@@ -5,6 +5,7 @@ abstract class RecipeSupabaseService {
   Future<Either> getBreakfast();
   Future<Either> getHighProtein();
   Future<Either> getMeal();
+  Future<Either> getByCategoryId(String categoryId);
 }
 
 class RecipeSupabaseServiceImpl extends RecipeSupabaseService {
@@ -44,6 +45,19 @@ class RecipeSupabaseServiceImpl extends RecipeSupabaseService {
       return Right(retunredData);
     } catch (e) {
       return const Left('Please try again');
+    }
+  }
+
+  @override
+  Future<Either> getByCategoryId(String categoryId) async {
+    try {
+      var returnedData = await supabaseClient
+          .from('recipe')
+          .select()
+          .eq('categoryId', categoryId);
+      return Right(returnedData);
+    } catch (e) {
+      return const Left('Pleas try again');
     }
   }
 }
