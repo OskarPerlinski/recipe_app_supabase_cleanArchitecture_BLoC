@@ -47,9 +47,29 @@ class RecipeRepositoryImpl extends RecipeRepository {
         return Left(error);
       },
       (data) {
-        return Right(List.from(data)
-            .map((e) => RecipeModels.fromMap(e).toEntity())
-            .toList());
+        return Right(
+          List.from(data)
+              .map((e) => RecipeModels.fromMap(e).toEntity())
+              .toList(),
+        );
+      },
+    );
+  }
+
+  @override
+  Future<Either> getByCategoryId(String categoryId) async {
+    var retunredData =
+        await sl<RecipeSupabaseService>().getByCategoryId(categoryId);
+    return retunredData.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(
+          List.from(data)
+              .map((e) => RecipeModels.fromMap(e).toEntity())
+              .toList(),
+        );
       },
     );
   }
