@@ -15,6 +15,7 @@ import 'package:recipe_api/domain/category/repository/category.dart';
 import 'package:recipe_api/domain/category/usecases/get_category.dart';
 import 'package:recipe_api/domain/recipe/repository/recipe.dart';
 import 'package:recipe_api/domain/recipe/usecases/get_breakfast.dart';
+import 'package:recipe_api/domain/recipe/usecases/get_by_category_id.dart';
 import 'package:recipe_api/domain/recipe/usecases/get_high_protein.dart';
 import 'package:recipe_api/domain/recipe/usecases/get_meal.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -40,4 +41,5 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<GetBreakfastUseCase>(GetBreakfastUseCase());
   sl.registerSingleton<GetHighProteinUseCase>(GetHighProteinUseCase());
   sl.registerSingleton<GetMealUseCase>(GetMealUseCase());
+  sl.registerSingleton<GetByCategoryIdUseCase>(GetByCategoryIdUseCase());
 }
