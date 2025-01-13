@@ -66,6 +66,7 @@ class RecipeCard2 extends HookWidget {
                         "Ready in",
                         style: TextStyle(
                           fontSize: 14,
+                          color: Colors.black45,
                         ),
                       ),
                       const SizedBox(width: 5),
@@ -81,10 +82,12 @@ class RecipeCard2 extends HookWidget {
                         " minutes",
                         style: TextStyle(
                           fontSize: 14,
+                          color: Colors.black45,
                         ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: Row(
