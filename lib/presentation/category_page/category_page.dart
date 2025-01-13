@@ -31,12 +31,14 @@ class CategoryPage extends HookWidget {
               );
             }
             if (state is RecipeLoaded) {
-              return Column(
-                children: [
-                  _typeRecipe(state.recipe),
-                  const SizedBox(height: 30),
-                  _categoryProducts(state.recipe),
-                ],
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _typeRecipe(state.recipe),
+                    const SizedBox(height: 30),
+                    _categoryProducts(state.recipe),
+                  ],
+                ),
               );
             }
             if (state is FailureLoadedRecipe) {
