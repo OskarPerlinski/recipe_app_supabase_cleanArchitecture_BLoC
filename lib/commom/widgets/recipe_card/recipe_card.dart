@@ -20,113 +20,119 @@ class RecipeCard extends HookWidget {
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, left: 10),
-        child: Container(
-          width: 220,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 5,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(recipeEntity.image),
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
+        child: AspectRatio(
+          aspectRatio: 4 / 5, // Proporcja karty
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Obrazek (60% wysokości)
+                Expanded(
+                  flex: 6,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(recipeEntity.image),
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        recipeEntity.name,
-                        style: const TextStyle(
-                          fontSize: 16,
+                // Informacje (40% wysokości)
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Tytuł
+                        Text(
+                          recipeEntity.name,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          const Text(
-                            "Ready in",
-                            style: TextStyle(
-                              color: Colors.black,
+                        // Czas przygotowania
+                        Row(
+                          children: [
+                            const Text(
+                              "Ready in",
+                              style: TextStyle(
+                                color: Colors.black45,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            recipeEntity.prepTime,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
+                            const SizedBox(width: 5),
+                            Text(
+                              recipeEntity.prepTime,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            "minutes",
-                            style: TextStyle(
-                              color: Colors.black,
+                            const SizedBox(width: 5),
+                            const Text(
+                              "minutes",
+                              style: TextStyle(
+                                color: Colors.black45,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.orange,
-                          ),
-                          Text(
-                            recipeEntity.raiting,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                          ],
+                        ),
+                        // Ocena
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons.star,
+                              color: Colors.orange,
+                              size: 16,
                             ),
-                          ),
-                          const Text(
-                            ' (100+)',
-                            style: TextStyle(
-                              color: Colors.grey,
+                            const SizedBox(width: 4),
+                            Text(
+                              recipeEntity.raiting,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          )
-                        ],
-                      )
-                    ],
+                            const Text(
+                              ' (100+)',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
