@@ -21,7 +21,7 @@ class RecipeCard extends HookWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10, left: 10),
         child: AspectRatio(
-          aspectRatio: 4 / 5, // Proporcja karty
+          aspectRatio: 4 / 5,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -37,7 +37,6 @@ class RecipeCard extends HookWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Obrazek (60% wysokości)
                 Expanded(
                   flex: 6,
                   child: Container(
@@ -55,7 +54,6 @@ class RecipeCard extends HookWidget {
                     ),
                   ),
                 ),
-                // Informacje (40% wysokości)
                 Expanded(
                   flex: 4,
                   child: Padding(
@@ -75,7 +73,6 @@ class RecipeCard extends HookWidget {
                             color: Colors.black,
                           ),
                         ),
-                        // Czas przygotowania
                         Row(
                           children: [
                             const Text(
@@ -102,7 +99,6 @@ class RecipeCard extends HookWidget {
                             ),
                           ],
                         ),
-                        // Ocena
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
