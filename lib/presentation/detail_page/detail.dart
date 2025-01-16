@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:recipe_api/bloc/favorite_icon/favorite_icon_cubit.dart';
 import 'package:recipe_api/commom/widgets/appbar/basic_appbar.dart';
+import 'package:recipe_api/domain/favorite/entity/favorite.dart';
 import 'package:recipe_api/domain/recipe/entity/recipe.dart';
+import 'package:recipe_api/presentation/detail_page/widgets/favorite_button.dart';
 
 class DetailPage extends HookWidget {
   final RecipeEntity recipeEntity;
@@ -9,25 +13,46 @@ class DetailPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const BasicAppbar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _photo(context),
-              const SizedBox(height: 30),
-              _name(),
-              _raintings(),
-              const SizedBox(height: 20),
-              _description(),
-              const SizedBox(height: 30),
-              _ingredients(),
-              const SizedBox(height: 30),
-              _directions(),
-            ],
+    final favoriteEntity = FavoriteEntity(
+      id: recipeEntity.id,
+      userId: 'user-id',
+      recipeId: recipeEntity.id,
+      name: recipeEntity.name,
+      prepTime: recipeEntity.prepTime,
+      raiting: recipeEntity.raiting,
+      image: recipeEntity.image,
+      ingredients: recipeEntity.ingredients,
+      directions: recipeEntity.directions,
+      description: recipeEntity.description,
+    );
+    return BlocProvider(
+      create: (context) =>
+          FavoriteIconCubit()..isFavorite(favoriteEntity.recipeId),
+      child: Scaffold(
+        appBar: BasicAppbar(
+          hideBack: false,
+          action: FavoriteButton(
+            favoriteEntity: favoriteEntity,
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _photo(context),
+                const SizedBox(height: 30),
+                _name(),
+                _raintings(),
+                const SizedBox(height: 20),
+                _description(),
+                const SizedBox(height: 30),
+                _ingredients(),
+                const SizedBox(height: 30),
+                _directions(),
+              ],
+            ),
           ),
         ),
       ),
@@ -142,7 +167,7 @@ class DetailPage extends HookWidget {
     );
   }
 
-   Widget _directions() {
+  Widget _directions() {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Column(
@@ -168,6 +193,4 @@ class DetailPage extends HookWidget {
       ),
     );
   }
-  
 }
-
